@@ -1,4 +1,10 @@
-<div class="boardContent rollbar">
+<style>
+    .newrelic > div {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<div class="boardContent newrelic">
     <div id="chart-{{ name }}"></div>
 </div>
 <script type="text/javascript">
@@ -6,9 +12,7 @@
         new Highcharts.Chart({
             chart: {
                 renderTo: 'chart-{{ name }}',
-                type: 'area',
-                width: 330,
-                height: 320
+                type: 'area'
             },
             title: {
                 text: '{{ name }}'

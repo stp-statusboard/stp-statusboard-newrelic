@@ -165,6 +165,8 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
             throw new NewRelicException('Empty action');
         }
 
+        $begin = $request->get('begin', '-30minutes');
+
         if (!isset($this->methodsMap[$action])) {
             throw new NewRelicException('Unrecognized action');
         }
@@ -183,6 +185,7 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
             'apiKey' => $apiKey,
             'method' => $method,
             'template' => $template,
+            'begin' => $begin,
         ];
     }
 }

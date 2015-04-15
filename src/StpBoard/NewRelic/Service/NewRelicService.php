@@ -22,7 +22,7 @@ class NewRelicService
      */
     public function fetchFeRpmForGraphWidget($config)
     {
-        $beginDate = $this->getStringForTimeInterval('-30minutes');
+        $beginDate = $this->getStringForTimeInterval($config['begin']);
         $endDate = $this->getStringForTimeInterval('now');
 
         $url = sprintf(self::FE_RPM_FOR_GRAPH_WIDGET_URL, $config['accountId'], $config['appId'], $beginDate, $endDate);
@@ -125,7 +125,7 @@ class NewRelicService
      */
     public function fetchRpmForGraphWidget($config)
     {
-        $beginDate = $this->getStringForTimeInterval('-30minutes');
+        $beginDate = $this->getStringForTimeInterval($config['begin']);
         $endDate = $this->getStringForTimeInterval('now');
 
         $url = sprintf(self::RPM_FOR_GRAPH_WIDGET_URL, $config['accountId'], $config['appId'], $beginDate, $endDate);
@@ -273,7 +273,7 @@ class NewRelicService
      */
     public function fetchCpuUsageForGraphWidget($config)
     {
-        $beginDate = $this->getStringForTimeInterval('-30minutes');
+        $beginDate = $this->getStringForTimeInterval($config['begin']);
         $endDate = $this->getStringForTimeInterval('now');
 
         $url = sprintf(self::CPU_USAGE_URL, $config['accountId'], $config['appId'], $beginDate, $endDate);
@@ -299,7 +299,7 @@ class NewRelicService
      */
     public function fetchAverageResponseTimeForGraphWidget($config)
     {
-        $beginDate = $this->getStringForTimeInterval('-30minutes');
+        $beginDate = $this->getStringForTimeInterval($config['begin']);
         $endDate = $this->getStringForTimeInterval('now');
 
         $url = sprintf(self::AVERAGE_RESPONSE_TIME_URL, $config['accountId'], $config['appId'], $beginDate, $endDate);

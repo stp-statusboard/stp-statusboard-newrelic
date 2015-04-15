@@ -14,6 +14,7 @@
       appId: NEW_RELIC_APP_ID
       apiKey: NEW_RELIC_API_KEY
       action: ACTION
+      begin: -30minutes
 ```
 
 Available actions are:
@@ -29,3 +30,6 @@ Available actions are:
 * cpu
 * memory
 * average_response_time
+
+Parameter ```begin``` is optional - default value is ```-30minutes```. It describes time period from which data should
+be displayed.
