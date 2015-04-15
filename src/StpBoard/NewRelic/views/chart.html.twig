@@ -1,0 +1,50 @@
+<div class="boardContent rollbar">
+    <div id="chart-{{ name }}"></div>
+</div>
+<script type="text/javascript">
+    $('document').ready(function () {
+        new Highcharts.Chart({
+            chart: {
+                renderTo: 'chart-{{ name }}',
+                type: 'area',
+                width: 330,
+                height: 320
+            },
+            title: {
+                text: '{{ name }}'
+            },
+            xAxis: {
+                title: '',
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: ''
+            },
+            plotOptions: {
+                area: {
+                    pointStart: 1940,
+                    marker: {
+                        enabled: false,
+                        symbol: 'circle',
+                        radius: 2,
+                        states: {
+                            hover: {
+                                enabled: true
+                            }
+                        }
+                    }
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                data: JSON.parse('{{ data|json_encode|raw }}')
+            }]
+        });
+    });
+</script>

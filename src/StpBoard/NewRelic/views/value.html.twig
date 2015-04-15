@@ -1,0 +1,14 @@
+<style>
+    .newrelic .name {
+        min-height: 84px;
+        font-size: 30px;
+    }
+
+    .newrelic .value {
+        font-size: 80px;
+    }
+</style>
+<div class="boardContent newrelic {{ name|lower }}">
+    <div class="name">{{ name }}</div>
+    <div class="value">{{ data }}</div>
+</div>

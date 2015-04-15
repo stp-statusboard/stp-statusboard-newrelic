@@ -1,0 +1,20 @@
+{
+  "name": "filipgolonka/stp-statusboard-newrelic",
+  "description": "NewRelic widget for stp-silex-statusboard",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Filip Golonka",
+      "email": "filip.golonka@schibsted.pl"
+    }
+  ],
+  "require": {
+    "silex/silex": "1.2.*",
+    "mplachta/stp-statusboard-base": "dev-master"
+  },
+  "autoload": {
+    "psr-0": {
+      "StpBoard\\NewRelic\\": "src"
+    }
+  }
+}
