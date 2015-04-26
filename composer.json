@@ -1,6 +1,6 @@
 {
-  "name": "filipgolonka/stp-statusboard-newrelic",
-  "description": "NewRelic widget for stp-silex-statusboard",
+  "name": "stp-statusboard/stp-statusboard-newrelic",
+  "description": "NewRelic widget for stp-statusboard",
   "license": "MIT",
   "authors": [
     {
@@ -10,7 +10,7 @@
   ],
   "require": {
     "silex/silex": "1.2.*",
-    "mplachta/stp-statusboard-base": "dev-master"
+    "stp-statusboard/stp-statusboard-base": "0.1.*"
   },
   "autoload": {
     "psr-0": {

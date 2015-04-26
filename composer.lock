@@ -4,44 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6118a604d3f650f30c2ec2732ea6ebf5",
+    "hash": "e209bf0afd8d2a66e0da8492c129bad8",
     "packages": [
-        {
-            "name": "mplachta/stp-statusboard-base",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mplachta/stp-statusboard-base.git",
-                "reference": "a804f92ef3119255233a0251bd61a624da39d9ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mplachta/stp-statusboard-base/zipball/a804f92ef3119255233a0251bd61a624da39d9ba",
-                "reference": "a804f92ef3119255233a0251bd61a624da39d9ba",
-                "shasum": ""
-            },
-            "require": {
-                "twig/twig": "1.9.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "StpBoard\\Base\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michal Plachta",
-                    "email": "michal.plachta@schibsted.pl"
-                }
-            ],
-            "description": "Base classes for STP StatusBoard Project",
-            "time": "2015-04-10 10:52:08"
-        },
         {
             "name": "pimple/pimple",
             "version": "v1.1.1",
@@ -207,6 +171,43 @@
                 "microframework"
             ],
             "time": "2015-04-11 12:43:27"
+        },
+        {
+            "name": "stp-statusboard/stp-statusboard-base",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stp-statusboard/stp-statusboard-base.git",
+                "reference": "a2d22f03778f0b0a225b54587f35df1b9cfb3ad2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stp-statusboard/stp-statusboard-base/zipball/a2d22f03778f0b0a225b54587f35df1b9cfb3ad2",
+                "reference": "a2d22f03778f0b0a225b54587f35df1b9cfb3ad2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "twig/twig": "1.9.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "StpBoard\\Base\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michal Plachta",
+                    "email": "michal.plachta@schibsted.pl"
+                }
+            ],
+            "description": "Base classes for stp-statusboard project",
+            "time": "2015-04-21 19:47:30"
         },
         {
             "name": "symfony/debug",
@@ -582,9 +583,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "mplachta/stp-statusboard-base": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

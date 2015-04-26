@@ -17,7 +17,8 @@
       begin: -30minutes
 ```
 
-Available actions are:
+### Available actions are:
+
 * rpm
 * fe_rpm
 * apdex
