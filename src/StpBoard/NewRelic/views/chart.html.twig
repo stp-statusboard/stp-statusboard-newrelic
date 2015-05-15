@@ -1,13 +1,13 @@
 <style>
-    .newrelic > div {
+    .newrelic > .chart {
         width: 100%;
         height: 100%;
     }
 </style>
 <div class="boardContent newrelic">
-    <div id="chart-{{ name }}"></div>
+    <div id="chart-{{ name }}" class="chart"></div>
 </div>
-<script src="/web/js/highcharts-style.js"></script>
+<script src="/js/highcharts-style.js"></script>
 <script type="text/javascript">
     $('document').ready(function () {
         new Highcharts.Chart({

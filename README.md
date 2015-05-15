@@ -29,6 +29,7 @@
 * response_time
 * db
 * cpu
+* cpu_usage 
 * memory
 * average_response_time
 
