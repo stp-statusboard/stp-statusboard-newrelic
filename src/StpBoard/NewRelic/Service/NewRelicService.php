@@ -6,13 +6,17 @@ use StpBoard\NewRelic\Exception\NewRelicException;
 
 class NewRelicService
 {
-    const BASE_URL = 'https://api.newrelic.com/api/v1';
+    const BASE_URL_V1 = 'https://api.newrelic.com/api/v1';
+    const BASE_URL_V2 = 'https://api.newrelic.com/v2';
 
-    const FE_RPM_FOR_GRAPH_WIDGET_URL = '/accounts/%s/applications/%s/data.json?metrics[]=EndUser&field=requests_per_minute&begin=%s&end=%s';
-    const RPM_FOR_GRAPH_WIDGET_URL = '/accounts/%s/applications/%s/data.json?metrics[]=HttpDispatcher&field=requests_per_minute&begin=%s&end=%s';
-    const THRESHOLD_VALUES_URL = '/accounts/%s/applications/%s/threshold_values.xml';
-    const CPU_USAGE_URL = '/accounts/%s/applications/%s/data.json?metrics[]=CPU/User Time&field=percent&begin=%s&end=%s';
-    const AVERAGE_RESPONSE_TIME_URL = '/accounts/%s/applications/%s/data.json?metrics[]=HttpDispatcher&field=average_response_time&begin=%s&end=%s';
+    const FE_RPM_FOR_GRAPH_WIDGET_URL = self::BASE_URL_V1 . '/accounts/%s/applications/%s/data.json?metrics[]=EndUser&field=requests_per_minute&begin=%s&end=%s';
+    const RPM_FOR_GRAPH_WIDGET_URL = self::BASE_URL_V1 . '/accounts/%s/applications/%s/data.json?metrics[]=HttpDispatcher&field=requests_per_minute&begin=%s&end=%s';
+    const THRESHOLD_VALUES_URL = self::BASE_URL_V1 . '/accounts/%s/applications/%s/threshold_values.xml';
+    const CPU_USAGE_URL = self::BASE_URL_V1 . '/accounts/%s/applications/%s/data.json?metrics[]=CPU/User Time&field=percent&begin=%s&end=%s';
+    const AVERAGE_RESPONSE_TIME_URL = self::BASE_URL_V1 . '/accounts/%s/applications/%s/data.json?metrics[]=HttpDispatcher&field=average_response_time&begin=%s&end=%s';
+    const MEMCACHED_MEMORY_USED_URL = self::BASE_URL_V2 . '/applications/%s/metrics/data.json?names[]=Component/memcached/Used+memory[megabytes]&values[]=average_value&from=%s&to=%s';
+    const MEMCACHED_HIT_RATIO_URL = self::BASE_URL_V2 . '/applications/%s/metrics/data.json?names[]=Component/memcached/Hit+ratio[%%25]&values[]=average_value&from=%s&to=%s';
+    const MEMCACHED_LATENCY_URL = self::BASE_URL_V2 . '/applications/%s/metrics/data.json?names[]=Component/memcached/Latency/All[ms%%7Cwrite]&values[]=average_value&from=%s&to=%s';
 
     /**
      * @param array $config
@@ -71,7 +75,7 @@ class NewRelicService
     protected function request($url, $config)
     {
         $curlHandle = curl_init();
-        curl_setopt($curlHandle, CURLOPT_URL, self::BASE_URL . $url);
+        curl_setopt($curlHandle, CURLOPT_URL, $url);
         curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curlHandle, CURLOPT_HTTPHEADER, ['X-Api-Key:' . $config['apiKey']]);
@@ -311,6 +315,82 @@ class NewRelicService
             $result[] = [
                 'x' => 1000 * (strtotime($singleStat['begin']) + 7200),
                 'y' => round($singleStat['average_response_time'] * 1000)
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return string
+     */
+    public function fetchMemcachedUsedMemory($config)
+    {
+        return $this->fetchMemcachedMetric($config, self::MEMCACHED_MEMORY_USED_URL, 'MB');
+    }
+
+    /**
+     * @param array $config
+     * @param string $url
+     * @param string $unit
+     *
+     * @return string
+     * @throws NewRelicException
+     */
+    protected function fetchMemcachedMetric($config, $url, $unit = '')
+    {
+        $beginDate = $this->getStringForTimeInterval($config['begin']);
+        $endDate = $this->getStringForTimeInterval('now');
+
+        $url = sprintf($url, $config['appId'], $beginDate, $endDate);
+
+        $data = $this->parseJSON($this->request($url, $config));
+
+        $sum = 0;
+        foreach ($data['metric_data']['metrics'][0]['timeslices'] as $singleStat) {
+            $sum += $singleStat['values']['average_value'];
+        }
+
+        $count = count($data['metric_data']['metrics'][0]['timeslices']);
+        $average = $count ? $sum / $count : 0;
+
+        return round($average, 1) . $unit;
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return string
+     */
+    public function fetchMemcachedHitRatio($config)
+    {
+        return $this->fetchMemcachedMetric($config, self::MEMCACHED_HIT_RATIO_URL, '%');
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return array
+     * @throws NewRelicException
+     */
+    public function fetchMemcachedLatency($config)
+    {
+        $url = self::MEMCACHED_LATENCY_URL;
+
+        $beginDate = $this->getStringForTimeInterval($config['begin']);
+        $endDate = $this->getStringForTimeInterval('now');
+
+        $url = sprintf($url, $config['appId'], $beginDate, $endDate);
+
+        $data = $this->parseJSON($this->request($url, $config));
+
+        $result = [];
+        foreach ($data['metric_data']['metrics'][0]['timeslices'] as $singleStat) {
+            $result[] = [
+                'x' => 1000 * (strtotime($singleStat['from']) + 7200),
+                'y' => $singleStat['values']['average_value']
             ];
         }
 

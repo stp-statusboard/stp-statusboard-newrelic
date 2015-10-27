@@ -79,6 +79,18 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
             'method' => 'fetchAverageResponseTimeForGraphWidget',
             'template' => 'chart.html.twig',
         ],
+        'memcached_used_memory' => [
+            'method' => 'fetchMemcachedUsedMemory',
+            'template' => 'value.html.twig',
+        ],
+        'memcached_hit_ratio' => [
+            'method' => 'fetchMemcachedHitRatio',
+            'template' => 'value.html.twig',
+        ],
+        'memcached_latency' => [
+            'method' => 'fetchMemcachedLatency',
+            'template' => 'chart.html.twig',
+        ],
     ];
 
     /**
