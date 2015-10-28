@@ -8,15 +8,13 @@ use Silex\ControllerProviderInterface;
 use StpBoard\Base\BoardProviderInterface;
 use StpBoard\Base\TwigTrait;
 use StpBoard\NewRelic\Exception\NewRelicException;
+use StpBoard\NewRelic\Service\Client;
 use StpBoard\NewRelic\Service\NewRelicService;
 use Symfony\Component\HttpFoundation\Request;
 
 class NewRelicControllerProvider implements ControllerProviderInterface, BoardProviderInterface
 {
     use TwigTrait;
-
-    const GET_ITEMS_URL = 'https://api.rollbar.com/api/1/items/?status=active&access_token=%s';
-    const ITEMS_PER_PAGE = 100;
 
     /**
      * @var NewRelicService
@@ -39,20 +37,12 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
             'method' => 'fetchApdex',
             'template' => 'value.html.twig',
         ],
-        'application_busy' => [
-            'method' => 'fetchApplicationBusy',
-            'template' => 'value.html.twig',
-        ],
         'error_rate' => [
             'method' => 'fetchErrorRate',
             'template' => 'value.html.twig',
         ],
         'throughput' => [
             'method' => 'fetchThroughput',
-            'template' => 'value.html.twig',
-        ],
-        'errors' => [
-            'method' => 'fetchErrors',
             'template' => 'value.html.twig',
         ],
         'response_time' => [
@@ -110,7 +100,7 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
      */
     public function connect(Application $app)
     {
-        $this->newRelicService = new NewRelicService();
+        $this->newRelicService = new NewRelicService(new Client());
 
         $this->initTwig(__DIR__ . '/views');
         $controllers = $app['controllers_factory'];
@@ -157,11 +147,6 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
             throw new NewRelicException('Empty chart name');
         }
 
-        $accountId = $request->get('accountId');
-        if (empty($accountId)) {
-            throw new NewRelicException('Empty accountId');
-        }
-
         $appId = $request->get('appId');
         if (empty($appId)) {
             throw new NewRelicException('Empty appId');
@@ -179,6 +164,11 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
 
         $begin = $request->get('begin', '-30minutes');
 
+        $instanceId = $request->get('instanceId');
+        if (empty($instanceId) && $action == 'memory') {
+            throw new NewRelicException('Empty instanceId parameter');
+        }
+
         if (!isset($this->methodsMap[$action])) {
             throw new NewRelicException('Unrecognized action');
         }
@@ -192,8 +182,8 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
 
         return [
             'name' => $name,
-            'accountId' => $accountId,
             'appId' => $appId,
+            'instanceId' => $instanceId,
             'apiKey' => $apiKey,
             'method' => $method,
             'template' => $template,
