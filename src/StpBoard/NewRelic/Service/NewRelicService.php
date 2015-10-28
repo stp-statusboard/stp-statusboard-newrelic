@@ -149,7 +149,7 @@ class NewRelicService
      */
     public function fetchResponseTime($config)
     {
-        return $this->fetchMetricFromApplicationInfo($config, 'response_time') . 'ms';
+        return $this->fetchMetricFromApplicationInfo($config, 'response_time') . ' ms';
     }
 
     /**
@@ -174,7 +174,7 @@ class NewRelicService
         return $this->fetchMetric(
             $config,
             str_replace('_instanceId_', $config['instanceId'], self::MEMORY_USAGE_URL),
-            'MB',
+            ' MB',
             'used_mb_by_host'
         );
     }
@@ -208,7 +208,7 @@ class NewRelicService
      */
     public function fetchMemcachedUsedMemory($config)
     {
-        return $this->fetchMetric($config, self::MEMCACHED_MEMORY_USED_URL, 'MB');
+        return $this->fetchMetric($config, self::MEMCACHED_MEMORY_USED_URL, ' MB');
     }
 
     /**
