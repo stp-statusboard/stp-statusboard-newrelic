@@ -100,8 +100,8 @@ class NewRelicService
     {
         return sprintf(
             '%s [%s]',
-            $this->fetchMetricFromApplicationInfo($config, 'apdex_score'),
-            $this->fetchMetricFromApplicationInfo($config, 'apdex_target')
+            round($this->fetchMetricFromApplicationInfo($config, 'apdex_score'), 2),
+            round($this->fetchMetricFromApplicationInfo($config, 'apdex_target'), 2)
         );
     }
 
@@ -127,7 +127,7 @@ class NewRelicService
      */
     public function fetchErrorRate($config)
     {
-        return $this->fetchMetricFromApplicationInfo($config, 'error_rate') . '%';
+        return round($this->fetchMetricFromApplicationInfo($config, 'error_rate'), 2) . '%';
     }
 
     /**
@@ -138,7 +138,7 @@ class NewRelicService
      */
     public function fetchThroughput($config)
     {
-        return $this->fetchMetricFromApplicationInfo($config, 'throughput') . ' rpm';
+        return round($this->fetchMetricFromApplicationInfo($config, 'throughput'), 2) . ' rpm';
     }
 
     /**
@@ -149,7 +149,7 @@ class NewRelicService
      */
     public function fetchResponseTime($config)
     {
-        return $this->fetchMetricFromApplicationInfo($config, 'response_time') . ' ms';
+        return round($this->fetchMetricFromApplicationInfo($config, 'response_time'), 2) . ' ms';
     }
 
     /**
