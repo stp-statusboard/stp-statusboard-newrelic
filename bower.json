@@ -2,6 +2,6 @@
   "name": "stp-statusboard-newrelic",
   "dependencies": {
     "bootstrap": "v3.3.4",
-    "highcharts": "~4.1.5"
+    "highcharts": "4.1.5"
   }
 }
