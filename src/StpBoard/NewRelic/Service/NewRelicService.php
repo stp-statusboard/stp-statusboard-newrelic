@@ -58,7 +58,7 @@ class NewRelicService
 
         $data = $this->client->getJSON($url, $config);
 
-        $currentDate = new \DateTime();
+        $currentDate = new \DateTime(null, new \DateTimeZone('Europe/Warsaw'));
 
         $result = [];
         foreach ($data['metric_data']['metrics'][0]['timeslices'] as $singleStat) {
