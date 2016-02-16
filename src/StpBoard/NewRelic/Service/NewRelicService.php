@@ -58,10 +58,12 @@ class NewRelicService
 
         $data = $this->client->getJSON($url, $config);
 
+        $currentDate = new \DateTime();
+
         $result = [];
         foreach ($data['metric_data']['metrics'][0]['timeslices'] as $singleStat) {
             $result[] = [
-                'x' => 1000 * (strtotime($singleStat['from']) + 7200),
+                'x' => 1000 * ((new \DateTime($singleStat['from']))->getTimestamp() + $currentDate->getOffset()),
                 'y' => $singleStat['values'][$valueKey]
             ];
         }
