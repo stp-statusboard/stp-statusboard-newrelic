@@ -60,6 +60,10 @@ class NewRelicService
 
         $currentDate = new \DateTime(null, new \DateTimeZone('Europe/Warsaw'));
 
+        if (!isset($data['metric_data']['metrics'][0]['timeslices'])) {
+            return [];
+        }
+
         $result = [];
         foreach ($data['metric_data']['metrics'][0]['timeslices'] as $singleStat) {
             $result[] = [

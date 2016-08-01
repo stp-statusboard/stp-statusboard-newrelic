@@ -114,7 +114,7 @@ class NewRelicControllerProvider implements ControllerProviderInterface, BoardPr
                 try {
                     $config = $this->getConfig($request);
 
-                    $result = $this->newRelicService->$config['method']($config);
+                    $result = $this->newRelicService->{$config['method']}($config);
 
                     return $this->twig->render(
                         $config['template'],
